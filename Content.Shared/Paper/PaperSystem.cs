@@ -20,6 +20,7 @@ using Content.Shared.Mind.Components;
 using Content.Shared.Roles;
 using Content.Shared._Starlight.Time;
 // Starlight-end
+using Content.Shared._Funkystation.Handwriting; // Funky
 
 namespace Content.Shared.Paper;
 
@@ -56,6 +57,8 @@ public sealed partial class PaperSystem : EntitySystem
         SubscribeLocalEvent<RandomPaperContentComponent, MapInitEvent>(OnRandomPaperContentMapInit);
 
         SubscribeLocalEvent<ActivateOnPaperOpenedComponent, PaperWriteEvent>(OnPaperWrite);
+        SubscribeLocalEvent<PaperComponent, PaperSignatureRequestMessage>(OnSignatureRequest);
+
 
         // Umbra - Signing alt verb event listener.
         SubscribeLocalEvent<PaperComponent, GetVerbsEvent<AlternativeVerb>>(AddSignVerb);
@@ -462,7 +465,9 @@ public sealed partial class PaperSystem : EntitySystem
     private void OnSignatureRequest(Entity<PaperComponent> entity, ref PaperSignatureRequestMessage args)
     {
         var signature = GetPlayerSignature(args.Actor);
-        var newText = ReplaceNthSignatureTag(entity.Comp.Content, args.SignatureIndex, signature);
+        // funky, use the player's handwriting font
+        var rendered = HandwritingFontHelper.WrapIfHandwritten(EntityManager, args.Actor, signature);
+        var newText = ReplaceNthSignatureTag(entity.Comp.Content, args.SignatureIndex, rendered);
         SetContent(entity, newText);
 
         _adminLogger.Add(LogType.Chat, LogImpact.Low,
@@ -482,14 +487,10 @@ public sealed partial class PaperSystem : EntitySystem
     }
 
     /// <summary>
-    /// Gets the player's signature using the identity system, including rank, name, and role.
+    /// Gets the player's signature using the identity system (funky edited to be only the name)
     /// </summary>
     private string GetPlayerSignature(EntityUid player)
     {
-        var name = string.Empty;
-        var rank = string.Empty;
-        var role = string.Empty;
-
         // Get the identity entity (ID card, etc.)
         var identityEntity = player;
         if (TryComp<IdentityComponent>(player, out var identity) &&

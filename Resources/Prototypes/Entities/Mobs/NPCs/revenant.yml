@@ -96,3 +96,7 @@
     tags:
     - SlowImmune
     - KnockdownImmune
+    - AllowPortalTraversal
+  - type: HandwritingFont # Funky
+    fontId: HandwritingMessy
+    fontSize: 14
