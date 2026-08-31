@@ -21,6 +21,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
+using Robust.Shared.Serialization.Markdown.Mapping; // Blimpuf
 using Robust.Shared.Utility;
 using YamlDotNet.RepresentationModel;
 namespace Content.Shared.Humanoid;
@@ -75,7 +76,16 @@ public abstract partial class SharedHumanoidAppearanceSystem : EntitySystem
         yamlStream.Load(reader);
 
         var root = yamlStream.Documents[0].RootNode;
-        var export = _serManager.Read<HumanoidProfileExport>(root.ToDataNode(), notNullableOverride: true);
+
+        // Blimpuf start - discard markings if they aren't compatible with our profile format
+        var data = (MappingDataNode) root.ToDataNode();
+        var appearance = data.Get<MappingDataNode>("profile").Get<MappingDataNode>("appearance");
+
+        if (appearance.TryGet<MappingDataNode>("markings", out _))
+            appearance.Remove("markings");
+
+        var export = _serManager.Read<HumanoidProfileExport>(data, notNullableOverride: true);
+        // Blimpuf end
 
         switch (export.Version)
         {
