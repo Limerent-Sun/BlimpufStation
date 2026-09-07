@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Blimpuf Station" width="600" src="Resources/Textures/Logo/logo.png" />
+  <img alt="Blimpuf Station " width="600" src="Resources/Textures/Logo/logo.png" />
 </p>
 
 <h1 align="center">
