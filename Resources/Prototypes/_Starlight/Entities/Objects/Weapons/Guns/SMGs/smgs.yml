@@ -1,7 +1,7 @@
 # Rubber
 - type: entity
   name: Drozd
-  parent: [WeaponSubMachineGunDrozd, BaseSecurityContraband]
+  parent: [WeaponSubMachineGunDrozd, BaseSecurityContraband, BaseContrabandTier3] # Blimpuf
   id: WeaponSubMachineGunDrozdRubber
   suffix: Non-Lethal
   components:
@@ -26,7 +26,7 @@
 
 - type: entity
   name: SP-91-RC
-  parent: [BaseWeaponSubMachineGun, BaseSecurityContraband]
+  parent: [BaseWeaponSubMachineGun, BaseSecurityContraband, BaseContrabandTier3] # Blimpuf
   id: WeaponSubMachineGunSP91RC
   description: Compact submachine gun designed for riot control.
   components:
@@ -119,7 +119,7 @@
 #PPSH
 - type: entity
   name: PPSH 59 SMG
-  parent: [BaseWeaponSubMachineGun, BaseSovietContraband]
+  parent: [BaseWeaponSubMachineGun, BaseSovietContraband, BaseContrabandTier3] # Blimpuf
   id: WeaponSubMachineGunPPSH
   description: Beloved by USSP veterans and feared by friendly fire protocols everywhere. Uses .35 ammo.
   components:
@@ -342,13 +342,13 @@
 
 
 - type: entity
-  name: WT550r
+  name: WT550b
   parent: [BaseWeaponSubMachineGun, BaseGrandTheftContraband] # Starlight, grand theft
-  id: WeaponSubMachineGunWt550r
-  description: A special red-colored limited edition of the WT550, the WT550r. Designed by NanoTrasen's Small Arms Division as a compact submachine gun fully controllable with one hand. It contains an exotic internal recoil buffer and feeds from special top-mounted .35 magazines.
+  id: WeaponSubMachineGunWt550b
+  description: A special blue-colored limited edition of the WT550, the WT550b. Designed by NanoTrasen's Small Arms Division as a compact submachine gun fully controllable with one hand. It contains an exotic internal recoil buffer and feeds from special top-mounted .35 magazines.
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Weapons/Guns/SMGs/wt550r.rsi
+    sprite: _Starlight/Objects/Weapons/Guns/SMGs/wt550b.rsi
     layers:
       - state: base
         map: ["enum.GunVisualLayers.Base"]
@@ -361,7 +361,7 @@
         map: ["enum.GunVisualLayers.MagUnshaded"]
         shader: unshaded
   - type: Clothing
-    sprite: _Starlight/Objects/Weapons/Guns/SMGs/wt550r.rsi
+    sprite: _Starlight/Objects/Weapons/Guns/SMGs/wt550b.rsi
   - type: ChamberMagazineAmmoProvider
     boltClosed: null
   - type: Gun
@@ -402,7 +402,67 @@
     zeroVisible: true
   - type: Appearance
   - type: StealTarget
-    stealGroup: HOSWeapon # Proto5x and WT550r
+    stealGroup: HOSWeapon # Proto5x and WT550b
+  - type: SyndicateResearchTarget
+    researchProtoIds:
+      - displayName: fulton beacon
+        validPrototypes:
+          - FultonBeacon
+      - displayName: artifact crusher machine board
+        validPrototypes:
+          - ArtifactCrusherMachineCircuitboard
+      - displayName: security hud
+        validPrototypes:
+          - ClothingEyesGlassesSecurity
+          - ClothingEyesHudSecurity
+          - ClothingEyesEyepatchHudSecurity
+          - ClothingEyesEyepatchHudSecurityFlipped
+          - ClothingEyeGlassesSecurityPrescription
+          - ClothingEyesHudMedSec
+          - ClothingEyesGlassesBrigmedicPrescription
+          - ClothingEyesGlassesBrigmedic
+          - ClothingEyesHudBrigmedic
+          - ClothingEyesEyepatchHudBrigmedic
+          - ClothingEyesEyepatchHudBrigmedicFlipped
+          - ClothingEyesHudCorpsman
+          - ClothingEyesHudBlueShield
+          - ClothingEyesEyepatchHudBlueShieldFlipped
+          - ClothingEyesEyepatchHudBlueShield
+      - displayName: circular saw
+        validPrototypes:
+          - SawElectric
+          - SawRipper
+          - SawCyber
+          - SawAdvanced
+          - SawAbductor
+      - displayName: APC/Substation/SMES electronics
+        validPrototypes:
+          - APCElectronics
+          - APCAdvancedElectronics
+          - SubstationMachineCircuitboard
+          - WallmountSubstationElectronics
+          - SMESMachineCircuitboard
+          - SMESAdvancedMachineCircuitboard
+          - SMESHyperAdvancedMachineCircuitboard
+      - displayName: thruster machine board
+        validPrototypes:
+          - ThrusterMachineCircuitboard
+      - displayName: gavel hammer
+        validPrototypes:
+          - GavelHammer
+          - HeavyGavelHammer
+      - displayName: knife
+        validPrototypes:
+          - KitchenKnife
+          - CombatKnife
+          - SurvivalKnife
+          - RescueKnife
+          - KukriKnife
+          - UtilityKnife
+          - ThrowingKnife
+          - WeaponMeleeBoxcutter
+    researchUnlockId: UplinkWt551Compact
+    researchAnnouncementString: research-announcement-wt551-compact
 
 
 - type: entity
@@ -427,5 +487,7 @@
     - type: Clothing
       sprite: _Starlight/Objects/Weapons/Guns/SMGs/wt550g.rsi
     - type: Contraband
+      tier: Tier4 # Blimpuf
+      contrabandType: CentralCommand # Blimpuf
       allowedDepartments: [ CentralCommand ]
       allowedJobs: []

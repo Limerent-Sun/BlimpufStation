@@ -70,7 +70,14 @@
       - displayName: security-grade boots
         validPrototypes:
           - ClothingShoesBootsJack
+          - ClothingShoesBootsJackFilled
           - ClothingShoesBootsCombat
+          - ClothingShoesBootsCombatFilled
+          - ClothingShoesBootsSyndieFilled
+          - ClothingShoesBootsWinterSecFilled
+          - ClothingShoesBootsWinterSec
+          - ClothingShoesBootsMercFilled
+          - ClothingShoesBootsMerc
       - displayName: jetpack
         validPrototypes:
           - JetpackBlue
@@ -81,10 +88,46 @@
           - JetpackVoidFilled
           - JetpackMini
           - JetpackMiniFilled
+          - JetpackVoidEngineer
+          - JetpackVoidEngineerFilled
+          - JetpackCaptain
+          - JetpackCaptainFilled
+          - JetpackSecurity
+          - JetpackSecurityFilled
+          - JetpackVoid
+          - JetpackVoidFilled
+          - JetpackSSFMarine
+          - JetpackSSFMarineFilled
+          - JetpackImprovised
+          - JetpackImprovisedFilled
+          - JetpackSpeedster
+          - JetpackSpeedsterFilled
       - displayName: armor vest
         validPrototypes:
           - ClothingOuterArmorBasic
           - ClothingOuterArmorBasicSlim
+          - ClothingOuterVestDetective
+          - ClothingOuterArmorBulletproof
+          - ClothingOuterArmorBlueShield
+          - ClothingOuterArmorReflective
+          - ClothingOuterArmorCaptainCarapace
+          - ClothingOuterArmorMakeshift
+          - ClothingOuterArmorPlate
+          - ClothingOuterPressArmor
+          - ClothingOuterArmorScrap
+          - ClothingOuterArmorSovietPlate
+          - ClothingOuterArmorStab
+          - ClothingOuterCoatWarden
+          - ClothingOuterCoatHoSTrench
+          - ClothingOuterCoatDetectiveLoadoutGrey
+          - ClothingOuterCoatDetectiveLoadout
+          - ClothingOuterCoatDetective
+          - ClothingOuterVestWeb
+          - ClothingOuterVestWebElite
+          - ClothingOuterVestWebEliteFilledMAA
+          - ClothingOuterVestWebEliteCentcomm
+          - ClothingOuterVestWebMerc
+          - ClothingOuterVestWebSalvageMerc
       - displayName: disabler
         validPrototypes:
           - WeaponDisabler
@@ -92,12 +135,20 @@
       - displayName: spray painter
         validPrototypes:
           - SprayPainter
+          - SprayPainterEmpty
       - displayName: magboots
         validPrototypes:
           - ClothingShoesBootsMagSci
           - ClothingShoesBootsMag
           - ClothingShoesBootsMagSec
           - ClothingShoesBootsMagBSO
+          - ClothingShoesBootsMagSyndie
+          - ClothingShoesBootsMagERT
+          - ClothingShoesBootsMagGreenshield
+          - ClothingShoesBootsMagBlinding
+          - ClothingShoesBootsMagMedTak
+          - ClothingShoesBootsMagSyndieAdvanced
+          - ClothingShoesBootsMagAdv
       - displayName: scythe
         validPrototypes:
           - HydroponicsToolScythe
@@ -135,6 +186,8 @@
   name: blood-red magboots
   description: Reverse-engineered from ERT magboots, they have a heavy magnetic pull, integrated thrusters, and are designed for combat. It can hold 0.75 L of gas. # Starlight
   components:
+  - type: Contraband # Blimpuf
+    tier: Tier4
   - type: Sprite
     sprite: Clothing/Shoes/Boots/magboots-syndicate.rsi
     state: icon
