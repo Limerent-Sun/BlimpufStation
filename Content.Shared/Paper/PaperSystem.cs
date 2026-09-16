@@ -13,11 +13,7 @@ using Robust.Shared.Audio.Systems;
 using static Content.Shared.Paper.PaperComponent;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
-// Starlight-start
-using Content.Shared.IdentityManagement;
-using Content.Shared.IdentityManagement.Components;
-using Content.Shared._Starlight.Time;
-// Starlight-end
+using Content.Shared._Starlight.Time; // Starlight
 using Content.Shared._Funkystation.Handwriting; // Funky
 
 namespace Content.Shared.Paper;
@@ -464,14 +460,14 @@ public sealed partial class PaperSystem : EntitySystem
 
     private void OnSignatureRequest(Entity<PaperComponent> entity, ref PaperSignatureRequestMessage args)
     {
-        var signature = GetPlayerSignature(args.Actor);
-        // funky, use the player's handwriting font
-        var rendered = HandwritingFontHelper.WrapIfHandwritten(EntityManager, args.Actor, signature);
-        var newText = ReplaceNthSignatureTag(entity.Comp.Content, args.SignatureIndex, rendered);
-        SetContent(entity, newText);
+        if (!entity.Comp.Content.Contains("[signature]", StringComparison.Ordinal))
+            return;
 
-        _adminLogger.Add(LogType.Chat, LogImpact.Low,
-            $"{ToPrettyString(args.Actor):player} signed {ToPrettyString(entity):entity} with signature: {signature}");
+        if (!_interaction.InRangeUnobstructed(args.Actor, entity.Owner, popup: true))
+            return;
+
+        // Blimpuf: Keep signatures outside editable text by using the existing Sign action.
+        TrySign(entity, args.Actor);
     }
 
     private void OnDateTimeRequest(Entity<PaperComponent> entity, ref PaperDateTimeRequestMessage args)
@@ -484,49 +480,6 @@ public sealed partial class PaperSystem : EntitySystem
 
         var newText = ReplaceNthDateTimeTag(entity.Comp.Content, args.DateTimeIndex, formatted);
         SetContent(entity, newText);
-    }
-
-    /// <summary>
-    /// Gets the player's signature using the identity system (funky edited to be only the name)
-    /// </summary>
-    private string GetPlayerSignature(EntityUid player)
-    {
-        // Get the identity entity (ID card, etc.)
-        var identityEntity = player;
-        if (TryComp<IdentityComponent>(player, out var identity) &&
-            identity.IdentityEntitySlot?.ContainedEntity is { } idEntity)
-        {
-            identityEntity = idEntity;
-        }
-
-        // Get name from identity or fallback to entity name
-        return MetaData(identityEntity).EntityName;
-    }
-
-    /// <summary>
-    /// Replaces the nth occurrence of [signature] tag with replacement text.
-    /// </summary>
-    private static string ReplaceNthSignatureTag(string text, int index, string replacement)
-    {
-        const string signatureTag = "[signature]";
-        var currentIndex = 0;
-        var pos = 0;
-
-        while (pos < text.Length)
-        {
-            var foundPos = text.IndexOf(signatureTag, pos);
-            if (foundPos == -1) break;
-
-            if (currentIndex == index)
-            {
-                return text.Substring(0, foundPos) + replacement + text.Substring(foundPos + signatureTag.Length);
-            }
-
-            currentIndex++;
-            pos = foundPos + signatureTag.Length;
-        }
-
-        return text;
     }
 
     /// <summary>

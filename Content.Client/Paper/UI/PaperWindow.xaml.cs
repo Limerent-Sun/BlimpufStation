@@ -476,9 +476,9 @@ namespace Content.Client.Paper.UI
         }
 
         /// <summary>
-        /// Sends a signature request to the server to handle signature with proper identity system.
+        /// Requests the paper's Sign action from a signature field.
         /// </summary>
-        /// <param name="signatureIndex">Zero-based index of which [signature] tag to replace</param>
+        /// <param name="signatureIndex">Zero-based index of the clicked [signature] field</param>
         public void SendSignatureRequest(int signatureIndex)
         {
             OnSignatureRequested?.Invoke(signatureIndex);
