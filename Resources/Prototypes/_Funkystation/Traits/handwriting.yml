@@ -1,7 +1,8 @@
 - type: traitCategory
   id: Handwriting
   name: trait-category-handwriting
-  maxTraitPoints: 1
+  maxTraits: 1
+  maxPoints: 1
 
 - type: trait
   id: HandwritingCasual
@@ -9,10 +10,12 @@
   description: trait-handwriting-casual-desc
   category: Handwriting
   cost: 1
-  components:
-  - type: HandwritingFont
-    fontId: HandwritingCasual
-    fontSize: 20
+  effects:
+  - !type:AddCompsEffect
+    components:
+    - type: HandwritingFont
+      fontId: HandwritingCasual
+      fontSize: 20
 
 - type: trait
   id: HandwritingNeat
@@ -20,10 +23,12 @@
   description: trait-handwriting-neat-desc
   category: Handwriting
   cost: 1
-  components:
-  - type: HandwritingFont
-    fontId: HandwritingNeat
-    fontSize: 24
+  effects:
+  - !type:AddCompsEffect
+    components:
+    - type: HandwritingFont
+      fontId: HandwritingNeat
+      fontSize: 24
 
 - type: trait
   id: HandwritingMessy
@@ -31,7 +36,9 @@
   description: trait-handwriting-messy-desc
   category: Handwriting
   cost: 1
-  components:
-  - type: HandwritingFont
-    fontId: HandwritingMessy
-    fontSize: 14
+  effects:
+  - !type:AddCompsEffect
+    components:
+    - type: HandwritingFont
+      fontId: HandwritingMessy
+      fontSize: 14

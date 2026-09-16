@@ -279,7 +279,6 @@
       path: /Audio/Ambience/Objects/periodic_beep.ogg
   #endregion
   - type: GlitchOnEMP #Far Horizons
-  - type: ESViewconeOccludable # Funky
   - type: HandwritingFont # Funky
     fontId: BoxRound # this is sysfont, looks nice and pixelated for borgs
     fontSize: 16

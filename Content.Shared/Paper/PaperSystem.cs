@@ -16,8 +16,6 @@ using Robust.Shared.Random;
 // Starlight-start
 using Content.Shared.IdentityManagement;
 using Content.Shared.IdentityManagement.Components;
-using Content.Shared.Mind.Components;
-using Content.Shared.Roles;
 using Content.Shared._Starlight.Time;
 // Starlight-end
 using Content.Shared._Funkystation.Handwriting; // Funky
@@ -57,8 +55,6 @@ public sealed partial class PaperSystem : EntitySystem
         SubscribeLocalEvent<RandomPaperContentComponent, MapInitEvent>(OnRandomPaperContentMapInit);
 
         SubscribeLocalEvent<ActivateOnPaperOpenedComponent, PaperWriteEvent>(OnPaperWrite);
-        SubscribeLocalEvent<PaperComponent, PaperSignatureRequestMessage>(OnSignatureRequest);
-
 
         // Umbra - Signing alt verb event listener.
         SubscribeLocalEvent<PaperComponent, GetVerbsEvent<AlternativeVerb>>(AddSignVerb);
@@ -344,13 +340,17 @@ public sealed partial class PaperSystem : EntitySystem
     // Umbra: Actual signature code.
     public bool TrySign(Entity<PaperComponent> paper, EntityUid signer)
     {
+        TryComp<HandwritingFontComponent>(signer, out var handwriting); // Blimpuf
+
         // Generate display information.
         StampDisplayInfo info = new StampDisplayInfo
         {
             StampedName = Name(signer),
             StampedColor = Color.FromHex("#333333"),
             Type = StampType.Signature,
-            Font = "/Fonts/_Starlight/Signature.ttf" // 🌟Starlight🌟
+            Font = "/Fonts/_Starlight/Signature.ttf", // 🌟Starlight🌟
+            HandwritingFontId = handwriting?.FontId ?? HandwritingFontHelper.DefaultFontId, // Blimpuf
+            HandwritingFontSize = handwriting?.FontSize ?? HandwritingFontHelper.DefaultFontSize, // Blimpuf
         };
 
         // STARLIGHT START
@@ -500,40 +500,7 @@ public sealed partial class PaperSystem : EntitySystem
         }
 
         // Get name from identity or fallback to entity name
-        name = MetaData(identityEntity).EntityName;
-
-        // Get role from mind system
-        if (TryComp<MindContainerComponent>(player, out var mindContainer) &&
-            mindContainer.Mind != null)
-        {
-            var roleSystem = EntityManager.System<SharedRoleSystem>();
-            var roleInfo = roleSystem.MindGetAllRoleInfo((mindContainer.Mind.Value, null));
-            if (roleInfo.Count > 0)
-            {
-                role = Loc.GetString(roleInfo[0].Name);
-            }
-        }
-
-        // Format: "Rank Name, Role" or fallback combinations
-        var signature = string.Empty;
-        if (!string.IsNullOrEmpty(rank) && !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(role))
-        {
-            signature = $"{rank} {name}, {role}";
-        }
-        else if (!string.IsNullOrEmpty(rank) && !string.IsNullOrEmpty(name))
-        {
-            signature = $"{rank} {name}";
-        }
-        else if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(role))
-        {
-            signature = $"{name}, {role}";
-        }
-        else
-        {
-            signature = name;
-        }
-
-        return signature;
+        return MetaData(identityEntity).EntityName;
     }
 
     /// <summary>

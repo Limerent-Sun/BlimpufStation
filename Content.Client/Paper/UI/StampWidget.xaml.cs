@@ -5,6 +5,7 @@ using Robust.Client.Graphics;
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
+using Robust.Client.UserInterface.RichText; // Blimpuf
 using Robust.Shared.Prototypes;
 
 namespace Content.Client.Paper.UI;
@@ -29,8 +30,16 @@ public sealed partial class StampWidget : PanelContainer
             StampedByLabel.Text = value.Type is StampType.Signature ? value.StampedName : Loc.GetString(value.StampedName);
             StampedByLabel.FontColorOverride = value.StampedColor;
             ModulateSelfOverride = value.StampedColor;
+            // Blimpuf: Let clients handle prototypes, where font resources are available.
+            if (value.Type == StampType.Signature && value.HandwritingFontId is { } fontId &&
+                IoCManager.Resolve<IPrototypeManager>().TryIndex<FontPrototype>(fontId, out var fontPrototype))
+            {
+                var resCache = IoCManager.Resolve<IResourceCache>();
+                var fontResource = resCache.GetResource<FontResource>(fontPrototype.Path);
+                StampedByLabel.FontOverride = new VectorFont(fontResource, value.HandwritingFontSize);
+            }
             // 🌟Starlight Edit start🌟
-            if (value.Type == StampType.Signature && value.Font != null)
+            else if (value.Type == StampType.Signature && value.Font != null)
             {
                 var resCache = IoCManager.Resolve<IResourceCache>();
                 var fontResource = resCache.GetResource<FontResource>(value.Font);

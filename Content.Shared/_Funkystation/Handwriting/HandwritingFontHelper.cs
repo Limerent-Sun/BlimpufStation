@@ -3,8 +3,8 @@ namespace Content.Shared._Funkystation.Handwriting;
 public static class HandwritingFontHelper
 {
     // if no handwriting component, defaults to this, which is just the same as casual
-    private const string DefaultFontId = "HandwritingCasual";
-    private const int DefaultFontSize = 20;
+    public const string DefaultFontId = "HandwritingCasual";
+    public const int DefaultFontSize = 20;
 
     /// <summary>
     /// wraps text in a [hwfont] tag

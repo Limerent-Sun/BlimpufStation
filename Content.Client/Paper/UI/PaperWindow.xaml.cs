@@ -18,9 +18,6 @@ using Content.Client._Starlight.UserInterface.RichText;
 #endregion Starlight
 using Robust.Shared.IoC;
 using Robust.Client.Player;
-using Content.Shared.Tag;
-using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Popups;
 using Content.Shared._Funkystation.Handwriting; // funky
 using Content.Client._FunkyStation.Handwriting; // funky
 
@@ -33,6 +30,16 @@ namespace Content.Client.Paper.UI
         private string _currentRawText = string.Empty;
         [Dependency] private IInputManager _inputManager = default!;
         [Dependency] private IResourceCache _resCache = default!;
+        // Blimpuf start
+        [Dependency] private IPlayerManager _playerManager = default!;
+        [Dependency] private IEntityManager _entityManager = default!;
+
+        private static readonly Type[] PaperAllowedTags =
+        [
+            ..UserFormattableTags.BaseAllowedTags,
+            typeof(HandwritingFontTagHandler),
+        ];
+        // Blimpuf end
 
         private static Color DefaultTextColor = new(25, 25, 25);
 
@@ -308,7 +315,7 @@ namespace Content.Client.Paper.UI
             // The markup system converts [form] and [signature] tags into interactive buttons
             var fm = new FormattedMessage();
             fm.AddMarkupPermissive(state.Text);
-            WrittenTextLabel.SetMessage(fm, UserFormattableTags.BaseAllowedTags, DefaultTextColor);
+            WrittenTextLabel.SetMessage(fm, PaperAllowedTags, DefaultTextColor);
 
             // Add extra bottom margin based on tag count to prevent cutoff (only in read mode)
             var tagCount = CountTags(state.Text);

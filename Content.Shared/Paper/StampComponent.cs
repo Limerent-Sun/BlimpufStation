@@ -29,6 +29,13 @@ public partial struct StampDisplayInfo
     // 🌟Starlight edit🌟
     [DataField("font")]
     public string? Font { get; set; } = "/Fonts/NotoSans/NotoSans-Regular.ttf"; // Default font :3
+
+    // Blimpuf: Snapshot the writer's handwriting so signatures retain their style when copied or saved.
+    [DataField]
+    public string? HandwritingFontId;
+
+    [DataField]
+    public int HandwritingFontSize;
 };
 
 /// UMBRA
