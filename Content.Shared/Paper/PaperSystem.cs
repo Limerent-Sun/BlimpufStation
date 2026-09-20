@@ -509,7 +509,7 @@ public sealed partial class PaperSystem : EntitySystem
     }
 
     /// <summary>
-    /// Removes any unfilled [form], [signature], and [datetime] tags, and converts [check] tags to ☐.
+    /// Removes any unfilled [form], [signature], [name], and [datetime] tags, and converts [check] tags to ☐.
     /// Called when the paper is stamped to finalize the document.
     /// </summary>
     /// <param name="text">The paper text to clean</param>
@@ -518,6 +518,7 @@ public sealed partial class PaperSystem : EntitySystem
     {
         return text.Replace("[form]", string.Empty)
                   .Replace("[signature]", string.Empty)
+                  .Replace("[name]", string.Empty) // Blimpuf
                   .Replace("[datetime]", string.Empty)
                   .Replace("[check]", "☐");
     }
